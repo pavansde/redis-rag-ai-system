@@ -23,6 +23,7 @@ This system answers user queries by:
 ---
 
 ## 🧠 System Architecture
+![Architecture Diagram](./docs/architecture.png)
 
 ```
 
