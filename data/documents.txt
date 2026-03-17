@@ -1,0 +1,9 @@
+Redis is an in-memory data structure store used as a database, cache, and message broker.
+
+FastAPI is a modern web framework for building APIs with Python.
+
+Retrieval Augmented Generation combines document retrieval with LLMs to produce accurate responses.
+
+Vector embeddings convert text into numerical representations that allow semantic search.
+
+Caching improves performance by storing previously computed results.
