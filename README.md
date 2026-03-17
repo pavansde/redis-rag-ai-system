@@ -1,49 +1,28 @@
-## System Architecture
+# 🚀 Redis-Optimized RAG AI System
 
-![Architecture](docs/architecture.png)
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
+![Redis](https://img.shields.io/badge/Redis-Caching-red)
+![LLM](https://img.shields.io/badge/LLM-GPT--4o--mini-purple)
+![Status](https://img.shields.io/badge/Status-Production--Style-success)
 
-```markdown
-# Redis Optimized RAG AI System
+A **production-grade Retrieval Augmented Generation (RAG)** system built using **Redis, FastAPI, FAISS, and OpenAI models**.
 
-A production-style Retrieval Augmented Generation (RAG) system built with Redis, FastAPI, semantic search, and OpenAI models.
-
-This project demonstrates how Redis can be used to optimize AI systems by:
-
-- caching LLM responses
-- caching embeddings
-- enforcing API rate limits
-- tracking system metrics
-
-The system retrieves relevant documents using vector similarity search and generates answers using **GPT-4o-mini**.
+This project demonstrates how to design **scalable, cost-efficient AI systems** using real-world backend and infrastructure patterns.
 
 ---
 
-# Key Features
+## 📌 Overview
 
-### Redis Intelligent Caching
-Prevents repeated LLM calls by caching responses with TTL.
+This system answers user queries by:
 
-### Embedding Cache
-Stores generated embeddings in Redis to reduce OpenAI API calls.
-
-### API Rate Limiting
-Protects the system from abuse using Redis atomic counters.
-
-### Semantic Search
-Uses embeddings and FAISS vector search to retrieve relevant documents.
-
-### Retrieval Augmented Generation (RAG)
-Combines document retrieval with LLM reasoning to produce grounded answers.
-
-### Observability
-Tracks cache hits, misses, and rate-limited requests using Redis counters.
-
-### Streaming Responses
-Supports token streaming from the LLM.
+1. Retrieving relevant documents using **semantic search**
+2. Generating grounded responses using **LLMs**
+3. Optimizing performance using **Redis caching + rate limiting**
 
 ---
 
-# System Architecture
+## 🧠 System Architecture
 
 ```
 
@@ -71,86 +50,122 @@ Cache Response in Redis
 
 ---
 
-# Redis Usage in This Project
+## ⚡ Key Features
 
-This system demonstrates multiple real-world Redis patterns.
+### 🧩 Intelligent Caching (Redis)
+- Avoids repeated LLM calls using **cache-aside pattern**
+- Uses TTL for automatic expiration
+- Improves latency + reduces cost
 
-| Redis Feature | Implementation |
-|------|------|
-| LLM caching | Cache-aside pattern using SETEX |
-| Embedding caching | Prevent repeated embedding API calls |
-| Rate limiting | Atomic INCR + EXPIRE |
-| Metrics tracking | Redis counters |
-| TTL expiration | Automatic cache refresh |
+### 🧠 Embedding Cache
+- Stores embeddings in Redis
+- Prevents redundant API calls
+- Speeds up semantic search pipeline
+
+### 🚦 API Rate Limiting
+- Built with Redis **atomic counters (INCR + EXPIRE)**
+- Protects system from abuse
+- Ensures fair usage
+
+### 🔍 Semantic Search
+- Uses **FAISS vector similarity search**
+- Retrieves top relevant documents
+- Improves answer grounding
+
+### 🧠 Retrieval Augmented Generation (RAG)
+- Combines:
+  - Context retrieval
+  - LLM reasoning
+- Produces accurate, context-aware responses
+
+### 📊 Observability
+- Tracks:
+  - Cache hits / misses
+  - Embedding usage
+  - Rate-limited requests
+- Enables system monitoring
+
+### 🌊 Streaming Responses
+- Token-level streaming from LLM
+- Improves perceived performance
 
 ---
 
-# Tech Stack
+## 🧱 Redis Design Patterns Used
+
+| Feature | Implementation |
+|--------|--------|
+| LLM Cache | Cache-aside (`SETEX`) |
+| Embedding Cache | Key-based lookup |
+| Rate Limiting | `INCR + EXPIRE` |
+| Metrics | Redis counters |
+| TTL Expiration | Automatic refresh |
+
+---
+
+## 🛠️ Tech Stack
 
 ### Backend
 - Python 3.12
 - FastAPI
-- Redis
+- Uvicorn
 
-### AI
+### AI / ML
 - OpenAI Embeddings
 - GPT-4o-mini
 - FAISS Vector Search
 
 ### Infrastructure
-- Uvicorn
+- Redis
 - python-dotenv
 
 ---
 
-# Project Structure
+## 📁 Project Structure
 
 ```
 
 redis-rag-ai-system
 │
 ├── app
-│   ├── main.py
-│   ├── cache.py
-│   ├── rate_limiter.py
-│   ├── embeddings.py
-│   ├── vector_search.py
-│   ├── rag_pipeline.py
-│   └── redis_client.py
+│   ├── main.py              # FastAPI entrypoint
+│   ├── cache.py            # LLM caching logic
+│   ├── rate_limiter.py     # Redis rate limiting
+│   ├── embeddings.py       # Embedding generation + caching
+│   ├── vector_search.py    # FAISS search
+│   ├── rag_pipeline.py     # Core RAG logic
+│   └── redis_client.py     # Redis connection
 │
 ├── data
-│   └── documents.txt
+│   └── documents.txt       # Knowledge base
 │
 ├── requirements.txt
 ├── .env.example
 └── README.md
 
-```
----
-
-# API Endpoints
-
-## Health Check
-
-```
-
-GET /health
-
-```
-
-Checks system and Redis connectivity.
-
----
-
-## Ask Question (RAG)
-
-```
-
-GET /ask?question=What is Redis?
-
 ````
 
-Example Response:
+---
+
+## 🌐 API Endpoints
+
+### ✅ Health Check
+
+```http
+GET /health
+````
+
+Checks system + Redis connectivity.
+
+---
+
+### 🤖 Ask Question (RAG)
+
+```http
+GET /ask?question=What is Redis?
+```
+
+#### Example Response
 
 ```json
 {
@@ -160,27 +175,27 @@ Example Response:
     "answer": "Redis is an in-memory data structure store used as a database, cache, and message broker."
   }
 }
-````
+```
 
 ---
 
-## Streaming Response
+### 🌊 Streaming Response
 
-```
+```http
 GET /stream?question=What is Redis?
 ```
 
-Streams tokens from the LLM.
+Streams tokens in real-time.
 
 ---
 
-## Metrics
+### 📊 Metrics
 
-```
+```http
 GET /metrics
 ```
 
-Example response:
+#### Example
 
 ```json
 {
@@ -194,39 +209,43 @@ Example response:
 
 ---
 
-# Running the Project
+## ⚙️ Running the Project
 
-## 1. Install dependencies
+### 1. Install Dependencies
 
-```
+```bash
 pip install -r requirements.txt
 ```
 
-## 2. Add environment variables
+---
+
+### 2. Setup Environment Variables
 
 Create `.env`
 
-```
+```env
 OPENAI_API_KEY=your_openai_api_key
 ```
 
 ---
 
-## 3. Start Redis
+### 3. Start Redis
 
-```
+```bash
 redis-server
 ```
 
 ---
 
-## 4. Run the API
+### 4. Run the API
 
-```
+```bash
 uvicorn app.main:app --reload
 ```
 
-Open API docs:
+---
+
+### 5. Open API Docs
 
 ```
 http://127.0.0.1:8000/docs
@@ -234,42 +253,60 @@ http://127.0.0.1:8000/docs
 
 ---
 
-# Example Query
+## 🔄 Example Flow
 
-```
+For:
+
+```http
 GET /ask?question=What is Redis?
 ```
 
-The system will:
+The system:
 
-1. check Redis cache
-2. enforce rate limiting
-3. perform semantic search
-4. retrieve relevant documents
-5. generate answer using GPT-4o-mini
-6. store result in Redis cache
-
----
-
-# Why This Project Matters
-
-This project demonstrates how Redis can significantly improve AI system performance by:
-
-* reducing repeated LLM calls
-* reducing embedding API calls
-* protecting APIs with rate limiting
-* improving response latency
-
-These patterns are commonly used in modern **AI infrastructure and backend systems**.
+1. Checks Redis cache
+2. Applies rate limiting
+3. Generates embedding
+4. Searches via FAISS
+5. Retrieves context
+6. Calls GPT-4o-mini
+7. Caches response
+8. Returns answer
 
 ---
 
-# Future Improvements
+## 🎯 Why This Project Matters
 
-Possible enhancements:
+This project demonstrates **real-world AI system design skills**:
 
-* Redis Vector Search instead of FAISS
+* ✅ LLM cost optimization using caching
+* ✅ Scalable backend architecture
+* ✅ Efficient retrieval pipelines (RAG)
+* ✅ Production-grade rate limiting
+* ✅ Observability & metrics tracking
+
+These are **core skills required for ML / AI / Backend roles**.
+
+---
+
+## 🚀 Future Improvements
+
+* Redis Vector Search (replace FAISS)
 * Dockerized deployment
-* Web UI for interactive queries
-* Distributed Redis cluster support
-* Streaming RAG responses
+* Web UI (chat interface)
+* Distributed Redis cluster
+* Advanced RAG (re-ranking, chunking strategies)
+
+---
+
+## 👨‍💻 Author
+
+**Pavan Kumar**
+
+* AI / ML Engineer
+* Focus: LLM Systems, Backend AI, Production ML
+
+---
+
+## ⭐ If You Like This Project
+
+Give it a star ⭐ and feel free to fork & build on it!
